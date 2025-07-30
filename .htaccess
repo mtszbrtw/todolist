@@ -1,1 +1,12 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /todolist/
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# (opcjonalnie, jeœli potrzebujesz odpowiedniej wersji PHP)
 AddType application/x-httpd-php83 .php
