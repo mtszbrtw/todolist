@@ -1,28 +1,37 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\View;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskShareController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Support\Facades\Auth;
 
-// Startowa strona przekierowuje na listę zadań
-Route::get('/', function () {
-    return redirect()->route('tasks.index');
+// Route do ładowania części widoków formularzy auth (login, register, reset)
+Route::get('/auth/partial/{type}', function ($type) {
+    if (!in_array($type, ['login', 'register', 'reset'])) abort(404);
+    return view("auth.partials.$type");
 });
 
+// Startowa strona — jeśli zalogowany, przekieruj do tasks
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect()->route('tasks.index');
+    }
+    return view('welcome');
+});
 
-// Dashboard — jeśli chcesz zostawić
+// Dashboard (opcjonalnie)
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Sekcja chroniona — tylko dla zalogowanych
+// Chronione trasy — tylko dla zalogowanych
 Route::middleware('auth')->group(function () {
-
-    // Taski
+    // Zadania
     Route::resource('tasks', TaskController::class);
 
-    // Udostępnianie zadań
+    // Udostępnianie zadań (generowanie linku)
     Route::post('tasks/{task}/share', [TaskShareController::class, 'generate'])->name('tasks.share');
 
     // Profil użytkownika
@@ -31,8 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Udostępniony link publiczny (bez auth)
+// Link publiczny do podglądu zadania
 Route::get('shared/{token}', [TaskShareController::class, 'show'])->name('tasks.shared.show');
 
-// Auth routes
+// Wbudowane routy auth (login, register, itp.)
 require __DIR__.'/auth.php';
