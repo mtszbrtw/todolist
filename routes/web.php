@@ -32,10 +32,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('tasks', TaskController::class);
 
     // Udostępnianie zadań (generowanie linku)
-    Route::post('tasks/{task}/share', [TaskShareController::class, 'generate'])->name('tasks.share');
+    Route::post('tasks/{task}/share', [TaskShareController::class,
+    'generate'])->name('tasks.share');
     
-    Route::get('/tasks/{task}/row', [TaskController::class,
-    'row'])->name('tasks.row');
+    Route::get('tasks/{task}/preview', [TaskController::class,
+    'preview'])->name('tasks.preview');
 
     // Profil użytkownika
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

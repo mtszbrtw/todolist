@@ -36,6 +36,10 @@ class TaskController extends Controller
         return view('tasks.index', compact('tasks'));
     }
     
+    public function preview(Task $task)
+{
+    return view('tasks.partials.preview', compact('task'));
+}
     
     public function row(Task $task)
 {

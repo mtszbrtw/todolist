@@ -47,35 +47,54 @@
             </tr>
         </thead>
         <tbody id="tasks-table">
-            @foreach($tasks as $task)
-                <tr id="task-row-{{ $task->id }}">
-                    <td>{{ $task->title }}</td>
-                    <td>{{ ucfirst($task->priority) }}</td>
-                    <td>{{ ucfirst($task->status) }}</td>
-                    <td>{{ $task->due_date }}</td>
-                    <td>
-                        <button class="btn btn-sm btn-warning edit-task-btn"
-                        data-edit-url="{{ route('tasks.edit', $task)
-                        }}">Edytuj</button>
-                        <button 
-    class="btn btn-sm btn-danger delete-task-btn" 
-    data-id="{{ $task->id }}" 
-    data-url="{{ route('tasks.destroy', $task) }}">
-    Usuń
-                        </button>
-                        <button class="btn btn-sm btn-info share-task-btn"
-        data-url="{{ route('tasks.share', $task) }}"
-        data-id="{{ $task->id }}">
-    Udostępnij
-                        </button>
-                    </td>
-                </tr>
-            @endforeach
+@foreach($tasks as $task)
+    <!-- Wiersz główny -->
+    
+    <tr class="task-main-row" data-id="{{ $task->id }}">
+        <td>{{ $task->title }}</td>
+        <td>{{ ucfirst($task->priority) }}</td>
+        <td>{{ ucfirst($task->status) }}</td>
+        <td>{{ $task->due_date }}</td>
+        <td>
+            <button class="btn btn-sm btn-warning edit-task-btn"
+                data-edit-url="{{ route('tasks.edit', $task) }}">Edytuj</button>
+            <button class="btn btn-sm btn-danger delete-task-btn" 
+                data-id="{{ $task->id }}" 
+                data-url="{{ route('tasks.destroy', $task) }}">Usuń</button>
+            <button class="btn btn-sm btn-info share-task-btn"
+                data-url="{{ route('tasks.share', $task) }}"
+                data-id="{{ $task->id }}">Udostępnij</button>
+        </td>
+    </tr>
+
+    <!-- Wiersz z opisem -->
+    <tr class="">
+        <td colspan="5">
+            <div class="text-muted">{{ $task->description ?? 'Brak opisu' }}</div>
+        </td>
+    </tr>
+
+    <!-- Wiersz odstępu -->
+    <tr class="">
+        <td colspan="5" style="height: 10px; padding: 0;"></td>
+    </tr>
+@endforeach
         </tbody>
     </table>
-    </div>
+</div>
 </div>
 
+
+<!-- Preview Modal -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body" id="previewModalBody">
+        Ładowanie...
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Modal -->
 <div class="modal fade" id="taskModal" tabindex="-1" aria-hidden="true">
@@ -288,6 +307,24 @@ document.addEventListener('DOMContentLoaded', function () {
         `);
         $('body').append(alert);
         setTimeout(() => alert.alert('close'), 3000);
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+
+    $(document).on('click', '.task-main-row', function (e) {
+        // Jeśli kliknięto bezpośrednio w przycisk, to ignoruj
+        if ($(e.target).is('button') || $(e.target).closest('button').length) return;
+
+        let taskId = $(this).data('id');
+        let url = `/tasks/${taskId}/preview`;
+
+        $.get(url, function (html) {
+            $('#previewModalBody').html(html);
+            previewModal.show();
+        });
     });
 });
 </script>
