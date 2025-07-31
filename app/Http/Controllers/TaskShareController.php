@@ -26,7 +26,7 @@ class TaskShareController extends Controller
             'expires_at' => $expiresAt,
         ]);
 
-        return redirect()->back()->with('share_link', $link);
+        return response()->json(['link' => $link]);
     
     }
 

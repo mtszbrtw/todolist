@@ -1,4 +1,4 @@
-<form method="POST" action="{{ $route }}">
+<form method="POST" id="create-task-form" action="{{ $route }}">
     @csrf
     @if($method !== 'POST')
         @method($method)

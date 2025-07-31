@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
     // Udostępnianie zadań (generowanie linku)
     Route::post('tasks/{task}/share', [TaskShareController::class, 'generate'])->name('tasks.share');
+    
+    Route::get('/tasks/{task}/row', [TaskController::class,
+    'row'])->name('tasks.row');
 
     // Profil użytkownika
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
