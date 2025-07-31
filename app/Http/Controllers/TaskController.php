@@ -35,25 +35,40 @@ class TaskController extends Controller
         $tasks = $query->orderBy('due_date')->paginate(10);
         return view('tasks.index', compact('tasks'));
     }
+    
+    
+    public function row(Task $task)
+{
+    return view('tasks.partials.row', compact('task'));
+}
+    
     public function create()
     {
         return view('tasks.create');
     }
-
+    
+    
     public function store(Request $request)
-    {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'required|in:low,medium,high',
-            'status' => 'required|in:to-do,in progress,done',
-            'due_date' => 'required|date',
+{
+    $data = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'priority' => 'required|in:low,medium,high',
+        'status' => 'required|in:to-do,in progress,done',
+        'due_date' => 'required|date',
+    ]);
+
+    $task = Auth::user()->tasks()->create($data);
+
+    if ($request->ajax()) {
+        return response()->json([
+            'message' => 'Zadanie utworzone!',
+            'task' => $task
         ]);
-
-        Auth::user()->tasks()->create($data);
-
-        return redirect()->route('tasks.index')->with('success', 'Task created.');
+    } else {
+        return redirect()->route('tasks.index')->with('success', 'Zadanie utworzone!');
     }
+}
 
     public function edit(Task $task)
     {
@@ -62,21 +77,21 @@ class TaskController extends Controller
     }
 
     public function update(Request $request, Task $task)
-    {
-        $this->authorize('update', $task);
+{
+    $this->authorize('update', $task);
 
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'priority' => 'required|in:low,medium,high',
-            'status' => 'required|in:to-do,in progress,done',
-            'due_date' => 'required|date',
-        ]);
+    $data = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'priority' => 'required|in:low,medium,high',
+        'status' => 'required|in:to-do,in-progress,done',
+        'due_date' => 'required|date',
+    ]);
 
-        $task->update($data);
+    $task->update($data);
 
-        return redirect()->route('tasks.index')->with('success', 'Task updated.');
-    }
+    return response()->json(['success' => true, 'id' => $task->id]);
+}
 
     public function destroy(Task $task)
     {
