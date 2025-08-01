@@ -1,5 +1,18 @@
+@if($tasks->isEmpty())
+    <tr>
+        <td colspan="5">
+            <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                <div class="text-center text-muted">
+                    <h5 class="mb-2">Brak zadań w wybranych filtrach</h5>
+                    <p>zmień je lub usuń ;)</p>
+                </div>
+            </div>
+        </td>
+    </tr>
+@else
+
 @foreach($tasks as $task)
-    <tr class="task-main-row">
+    <tr class="task-main-row-{{ $task->id }}">
         <td>{{ $task->title }}</td>
         <td>{{ ucfirst($task->priority) }}</td>
         <td>{{ ucfirst($task->status) }}</td>
@@ -15,6 +28,7 @@
                 data-id="{{ $task->id }}">Udostępnij</button>
         </td>
     </tr>
-    <tr><td colspan="5"><div class="text-muted">{{ $task->description ?? 'Brak opisu' }}</div></td></tr>
-    <tr><td colspan="5" style="height: 10px; padding: 0;"></td></tr>
+    <tr class="task-main-row-{{ $task->id }}"><td colspan="5"><div class="text-muted">{{ $task->description ?? 'Brak opisu' }}</div></td></tr>
+    <tr class="task-main-row-{{ $task->id }}"><td colspan="5" style="height: 10px; padding: 0;"></td></tr>
 @endforeach
+@endif

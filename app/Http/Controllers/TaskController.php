@@ -29,8 +29,8 @@ public function index(Request $request)
         $query->where('status', $request->status);
     }
 
-    if ($request->filled('due_date')) {
-        $query->whereDate('due_date', '>=', $request->due_date);
+    if ($request->filled('due')) {
+        $query->whereDate('due_date', '>=', $request->due);
     }
 
     $tasks = $query->orderBy('due_date', 'ASC')->get();

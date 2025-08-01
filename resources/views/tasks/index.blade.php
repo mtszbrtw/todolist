@@ -6,10 +6,6 @@
 
     <button type="button" class="btn btn-primary mb-3" id="add-task-btn">Dodaj zadanie</button>
 
-    @if(session('share_link'))
-        <div>Share link: {{ session('share_link') }}</div>
-    @endif
-
     <form method="GET" class="mb-3 row g-2">
         <div class="col">
             <select name="priority" class="form-select" id="priority-filter">
@@ -49,8 +45,20 @@
             </tr>
         </thead>
         <tbody id="tasks-table">
+            @if($tasks->isEmpty())
+    <tr>
+        <td colspan="5">
+            <div class="d-flex justify-content-center align-items-center" style="height: 200px;">
+                <div class="text-center text-muted">
+                    <h5 class="mb-2">Brak zadań</h5>
+                    <p>Dodaj pierwsze, aby zacząć!</p>
+                </div>
+            </div>
+        </td>
+    </tr>
+@else
             @foreach($tasks as $task)
-                <tr class="task-row-{{ $task->id }}">
+                <tr class="task-main-row-{{ $task->id }}">
                     <td>{{ $task->title }}</td>
                     <td>{{ ucfirst($task->priority) }}</td>
                     <td>{{ ucfirst($task->status) }}</td>
@@ -60,28 +68,29 @@
                         data-edit-url="{{ route('tasks.edit', $task)
                         }}">Edytuj</button>
                         <button 
-    class="btn btn-sm btn-danger delete-task-btn" 
-    data-id="{{ $task->id }}" 
-    data-url="{{ route('tasks.destroy', $task) }}">
-    Usuń
+                            class="btn btn-sm btn-danger delete-task-btn" 
+                                data-id="{{ $task->id }}" 
+                                data-url="{{ route('tasks.destroy', $task) }}">
+                                Usuń
                         </button>
                         <button class="btn btn-sm btn-info share-task-btn"
-        data-url="{{ route('tasks.share', $task) }}"
-        data-id="{{ $task->id }}">
-    Udostępnij
+                            data-url="{{ route('tasks.share', $task) }}"
+                            data-id="{{ $task->id }}">
+                        Udostępnij
                         </button>
                     </td>
                 </tr>
         
-    <tr class="task-row-{{ $task->id }}">
-        <td colspan="5">
-            <div class="text-muted">{{ $task->description ?? 'Brak opisu' }}</div>
-        </td>
-    </tr>
-    <tr class="task-row-{{ $task->id }}">
-        <td colspan="5" style="height: 10px; padding: 0;"></td>
-    </tr>
+                    <tr class="task-main-row-{{ $task->id }}">
+                        <td colspan="5">
+                            <div class="text-muted">{{ $task->description ?? 'Brak opisu' }}</div>
+                        </td>
+                    </tr>
+                    <tr class="task-main-row-{{ $task->id }}">
+                        <td colspan="5" style="height: 10px; padding: 0;"></td>
+                    </tr>
             @endforeach
+            @endif
         </tbody>
     </table>
     </div>
@@ -310,8 +319,8 @@ $(document).ready(function () {
                 deleteModal.hide();
 
                 // Usuń element z listy (DOM)
-                $('.task-row-' + taskId).remove();
-
+                //$(document,'.task-main-row-' + taskId).remove();
+                updateTasksList();
                 // Powiadomienie
                 const alert = $(`
                     <div class="alert alert-danger alert-dismissible fade show position-fixed top-0 start-50 translate-middle-x mt-3" role="alert" style="z-index: 9999; min-width: 300px;">

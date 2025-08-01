@@ -18,7 +18,7 @@ Route::get('/', function () {
         return redirect()->route('tasks.index');
     }
     return view('welcome');
-});
+})->name('/');
 
 // Chronione trasy — tylko dla zalogowanych
 Route::middleware('auth')->group(function () {
