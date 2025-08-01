@@ -16,31 +16,35 @@ class TaskController extends Controller
         $this->middleware('auth');
     }
 
-     public function index(Request $request)
-    {
-        $query = Auth::user()->tasks();
 
-        if ($request->filled('priority')) {
-            $query->where('priority', $request->priority);
-        }
-
-        if ($request->filled('status')) {
-            $query->where('status', $request->status);
-        }
-
-        if ($request->filled('due_date')) {
-            $query->where('due_date', $request->due_date);
-        }
-
-        $tasks = $query->orderBy('due_date')->paginate(10);
-        return view('tasks.index', compact('tasks'));
-    }
-    
-    
-    public function row(Task $task)
+public function index(Request $request)
 {
-    return view('tasks.partials.row', compact('task'));
+    $query = Auth::user()->tasks();
+
+    if ($request->filled('priority')) {
+        $query->where('priority', $request->priority);
+    }
+
+    if ($request->filled('status')) {
+        $query->where('status', $request->status);
+    }
+
+    if ($request->filled('due_date')) {
+        $query->whereDate('due_date', '>=', $request->due_date);
+    }
+
+    $tasks = $query->orderBy('due_date', 'ASC')->get();
+
+    // Jeśli AJAX – zwróć tylko tabelę
+    if ($request->ajax()) {
+        return view('tasks.partials.table', compact('tasks'))->render();
+    }
+
+    // Inaczej – pełen widok
+    return view('tasks.index', compact('tasks'));
 }
+    
+    
     
     public function create()
     {
