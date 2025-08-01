@@ -12,7 +12,7 @@
 
     <form method="GET" class="mb-3 row g-2">
         <div class="col">
-            <select name="priority" class="form-select">
+            <select name="priority" class="form-select" id="priority-filter">
                 <option value="">Wszystkie priorytety</option>
                 <option value="low">Niski</option>
                 <option value="medium">Średni</option>
@@ -20,7 +20,7 @@
             </select>
         </div>
         <div class="col">
-            <select name="status" class="form-select">
+            <select name="status" class="form-select" id="status-filter">
                 <option value="">Wszystkie statusy</option>
                 <option value="to-do">Do zrobienia</option>
                 <option value="in-progress">W trakcie</option>
@@ -28,12 +28,14 @@
             </select>
         </div>
         <div class="col">
-            <input type="date" name="due_date" class="form-control">
-        </div>
-        <div class="col">
-            <button class="btn btn-secondary">Filtruj</button>
+            <input type="date" name="due_date" class="form-control" id="due_date-filter">
         </div>
     </form>
+    
+    <div id="active-filters" class="mt-3" style="display: none;">
+    <strong>Aktywne filtry:</strong>
+    <span id="active-filter-list"></span>
+</div>
 
     <div class="table-responsive">
     <table class="table table-striped table-hover">
@@ -140,7 +142,81 @@
 
 @section('scripts')
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+  
+$(document).ready(function () {
+    function updateTasksList() {
+        const priority = $('#priority-filter').val();
+        const status = $('#status-filter').val();
+        const due = $('input[name="due_date"]').val();
+
+        $.ajax({
+            url: '{{ route("tasks.index") }}',
+            method: 'GET',
+            data: {
+                priority: priority,
+                status: status,
+                due: due
+            },
+            success: function (response) {
+            
+                $('#tasks-table').html(response);
+                updateActiveFiltersDisplay();
+            }
+        });
+    }
+
+    function updateActiveFiltersDisplay() {
+        let activeFilters = [];
+
+        const priority = $('#priority-filter').val();
+        const status = $('#status-filter').val();
+        const due = $('input[name="due_date"]').val();
+
+        if (priority) activeFilters.push({ key: 'priority', value: priority });
+        if (status) activeFilters.push({ key: 'status', value: status });
+        if (due) activeFilters.push({ key: 'due_date', value: due });
+
+        if (activeFilters.length > 0) {
+            $('#active-filters').show();
+            let html = '';
+            activeFilters.forEach(f => {
+            
+            var key = f.key;
+            
+            if(key == "priority"){
+            key = "piorytet";
+            }
+            if(key == "due_date"){
+            key = "data";
+            }
+            //tlumaczenia bardziej ogarnac 
+            
+                html += `<span class="badge bg-secondary me-2 active-filter" data-key="${f.key}">
+                    ${key}: ${f.value} <span style="cursor:pointer;">&times;</span>
+                </span>`;
+            });
+            $('#active-filter-list').html(html);
+        } else {
+            $('#active-filters').hide();
+            $('#active-filter-list').html('');
+        }
+    }
+
+    // Zmiana selecta powoduje natychmiastowe filtrowanie
+    $('#priority-filter, #status-filter, #due_date-filter').on('change', function () {
+        updateTasksList();
+    });
+
+    // Kliknięcie w aktywny filtr resetuje go
+    $(document).on('click', '.active-filter', function () {
+        const key = $(this).data('key');
+        let id = '#' + key + '-filter';
+         $(id).val('');
+        updateTasksList();
+    });
+  
+  
+//dodawanie edycja
     const taskModalEl = document.getElementById('taskModal');
     const taskModal = new bootstrap.Modal(taskModalEl);
 
@@ -178,7 +254,7 @@ document.addEventListener('DOMContentLoaded', function () {
             success: function () {
                 taskModal.hide();
                 showToast('Zadanie zapisane!');
-                refreshTasksTable();
+                updateTasksList();
             },
             error: function (xhr) {
                 let errors = xhr.responseJSON.errors;
@@ -190,13 +266,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-
-    function refreshTasksTable() {
-        $.get(window.location.href, function (html) {
-            const newTable = $(html).find('#tasks-table').html();
-            $('#tasks-table').html(newTable);
-        });
-    }
 
     function showToast(message) {
         let toast = $(`
@@ -214,10 +283,9 @@ document.addEventListener('DOMContentLoaded', function () {
         bsToast.show();
         setTimeout(() => toast.remove(), 3000);
     }
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+
+
+//delete
     const deleteModal = new bootstrap.Modal(document.getElementById('deleteTaskModal'));
     let deleteUrl = '';
     let taskId = null;
@@ -259,10 +327,11 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+
+
+
+//share
+
     const shareModal = new bootstrap.Modal(document.getElementById('shareTaskModal'));
     const shareInput = document.getElementById('shareLinkInput');
 
@@ -300,4 +369,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
 @endsection
