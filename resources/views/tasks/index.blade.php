@@ -48,7 +48,7 @@
         </thead>
         <tbody id="tasks-table">
             @foreach($tasks as $task)
-                <tr id="task-row-{{ $task->id }}">
+                <tr class="task-row-{{ $task->id }}">
                     <td>{{ $task->title }}</td>
                     <td>{{ ucfirst($task->priority) }}</td>
                     <td>{{ ucfirst($task->status) }}</td>
@@ -70,6 +70,15 @@
                         </button>
                     </td>
                 </tr>
+        
+    <tr class="task-row-{{ $task->id }}">
+        <td colspan="5">
+            <div class="text-muted">{{ $task->description ?? 'Brak opisu' }}</div>
+        </td>
+    </tr>
+    <tr class="task-row-{{ $task->id }}">
+        <td colspan="5" style="height: 10px; padding: 0;"></td>
+    </tr>
             @endforeach
         </tbody>
     </table>
@@ -233,7 +242,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 deleteModal.hide();
 
                 // Usuń element z listy (DOM)
-                $('#task-row-' + taskId).remove();
+                $('.task-row-' + taskId).remove();
 
                 // Powiadomienie
                 const alert = $(`
