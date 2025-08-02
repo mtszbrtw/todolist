@@ -58,7 +58,7 @@ public function index(Request $request)
         'title' => 'required|string|max:255',
         'description' => 'nullable|string',
         'priority' => 'required|in:low,medium,high',
-        'status' => 'required|in:to-do,in progress,done',
+        'status' => 'required|in:to-do,in-progress,done',
         'due_date' => 'required|date',
     ]);
 
