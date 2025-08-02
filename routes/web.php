@@ -23,7 +23,7 @@ Route::get('/', function () {
 // Chronione trasy — tylko dla zalogowanych
 Route::middleware('auth')->group(function () {
     // Zadania
-    Route::resource('tasks', TaskController::class);
+    Route::resource('tasks', TaskController::class)->names('tasks');
 
     // Udostępnianie zadań (generowanie linku)
     Route::post('tasks/{task}/share', [TaskShareController::class, 'generate'])->name('tasks.share');

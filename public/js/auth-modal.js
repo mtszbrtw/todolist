@@ -1,4 +1,11 @@
 $(document).ready(function () {
+  
+  $.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
     let modal = new bootstrap.Modal($('#authModal'));
 
     $('#open-auth').on('click', function () {
