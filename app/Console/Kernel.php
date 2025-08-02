@@ -14,7 +14,7 @@ class Kernel extends ConsoleKernel
             foreach ($tasks as $task) {
                 $task->user->notify(new \App\Notifications\TaskDueNotification($task));
             }
-        })->dailyAt('08:00');
+        })->everyMinute();
     }
 
     protected function commands()

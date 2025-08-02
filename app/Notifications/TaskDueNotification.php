@@ -6,6 +6,7 @@ use App\Models\Task;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\MailMessage;
+use Carbon\Carbon;
 
 class TaskDueNotification extends Notification
 {
@@ -27,7 +28,9 @@ class TaskDueNotification extends Notification
     {
         return (new MailMessage)
             ->subject('Przypomnienie o zadaniu')
-            ->line('Twoje zadanie "' . $this->task->title . '" jest do wykonania jutro (' . $this->task->due_date->format('Y-m-d') . ').')
+            ->line('Twoje zadanie "' . $this->task->title . '" jest do
+            wykonania jutro (' .
+            Carbon::parse($this->task->due_date)->format('Y-m-d') . ').')
             ->action('Zobacz zadanie', url(route('tasks.edit', $this->task->id)))
             ->line('Dziękujemy za korzystanie z aplikacji To-Do List.');
     }
