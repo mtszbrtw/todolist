@@ -18,15 +18,38 @@ Jeśli chcesz odpalić projekt lokalnie:
 
 W katalogu projektu wykonaj:
 
+Najpierw klonujemy do folderu w którym jesteśmy (lub bez kropki na końcu to
+stworzy nowy folder todolist) 
+
+git clone https://github.com/mtszbrtw/todolist.git .
+
+wewnątrz projektu :
+
+Instalujemy zależności composer 
 composer install
+
+Później node 
 npm install
-npm run dev
-php artisan migrate --seed
+npm run build
 
-dane logowania 
+Później trzeba zrobić .env 
+cp .env.example .env
+Zrobić klucz 
+php artisan key:generate
 
-email : demo@demo.pl
-hasło : demo123
+Następnie trzeba je skonfigurować 
+Oczywiście połączenie z bazą i SMTP 
+Dodatkowo 
+APP_LOCALE=pl
+
+Aby linki z e-maili działały poprawnie:
+
+APP_URL=http://localhost:8000
+
+Jak już jest połączenie z bazą to 
+php artisan migrate:fresh --seed
+
+I już można się rejestrować i bawić 
 
 Aby ręcznie uruchomić wysyłkę powiadomień e-mail (np. przypomnienie o zadaniu z deadlinem na jutro):
 
@@ -36,21 +59,9 @@ Uwaga: nalezy stworzyć użytkownika z prawodłowym emailem na który chcemy
 otwrzymać powiadomienie i użytkownik musi mieć dodane zadanie z terminem na jutro aby
 powiadomienie się wysłało!
 
-Powiadomienie e-mail wysyłane jest także automatycznie po rejestracji konta.
-
-
----
-
-Konfiguracja .env
-
-Aby linki z e-maili działały poprawnie:
-
-APP_URL=http://localhost:8000
-
-Aby komunikaty autoryzacyjne były po polsku:
-
-APP_LOCALE=pl
-
+Powiadomienie e-mail wysyłane jest także automatycznie po rejestracji konta
+oraz przy resecie hasła.
+(w demo emaile z rejestracji czasami wpadaja do spamu)
 
 ---
 
