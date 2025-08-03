@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +21,7 @@
     <!-- TWÓJ NAVBAR -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-<img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 40px;">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 40px;">
             <div class="ms-auto">
                 <button class="btn btn-outline-primary" id="open-auth">Logowanie</button>
             </div>
@@ -32,33 +33,41 @@
         <div class="container">
             <h1 class="display-4">Todo list by Mateusz Bartków</h1>
             
-            <p>Dane logownia do uzupełnionego konta</p>
-            tutaj dac dane konta demo z taskami 
+            <p>Dane logowania do uzupełnionego konta: </p>
             
+            <b>
+email : demo@demo.pl</br>
+hasło : demo123 </b>
             
-            <p class="lead">Polecam skorzystać z demo pod adresem https://worktrip.pl/todolist
-(Worktrip to też w całości moja platforma która tworzyłem w praktycznie całości korzystając tylko z telefonu i w dużej części w samochodzie dojeżdżając do pracy) 
-Oczywiście trzeba zobaczyć pliki które są na githubie ale demo jest od razu
-skonfigurowane i w pełni funkcjonalne więc nic nie trzeba do siebie ściągać i
-odpalać a są to dokładnie te same pliki które są na gicie </p>
+            <p class="lead">
+                Polecam skorzystać z demo pod adresem
+                <b><a
+                style="color:white"href="https://worktrip.pl/todolist">https://worktrip.pl/todolist</a></b>
+                </br>(Worktrip to również moja autorska platforma, którą stworzyłem
+                niemal w całości, korzystając tylko z telefonu – w dużej części
+                w samochodzie, podczas dojazdów do pracy).  </br>
+                          <p><b>Na telefonie tez fajnie wygląda ;)</b></p>
+               </br> Oczywiście warto również zerknąć na pliki dostępne na GitHubie, ale demo jest już w pełni skonfigurowane i gotowe do użycia – nie trzeba nic pobierać ani uruchamiać lokalnie. Co ważne, demo korzysta dokładnie z tych samych plików, które znajdziesz w repozytorium.
+            </p>
+
         </div>
     </header>
 
     <!-- O NAS -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center mb-4">Kim jesteśmy?</h2>
             <div class="row align-items-center">
                 <div class="col-md-6">
                 </div>
                 <div class="col-md-6 mt-4 mt-md-0">
-                  <p>
-Jest to w połowie ale jednak funkcjonalna aplikacja 
-W połowie bo jeszcze bardzo dużo można dodać i zmienić ale to co jest działa bardzo dobrze. 
-Przede wszystkim w całej stronie doświadczamy tylko kilka przeladowań (tylko przy sprawach autoryzacyjnych w samej aplikacji już nie - wszystko oparte jest o AJAX)
-z racji tego że większość kodowałem na telefonie (udało mi się tam odpalić latavela) a na drugim miejscu na Chromebooku (w demo linuxie) - urządzenia te są bardzo słabe więc mógłbym zapomnieć o dockerze więc w ramach rekompensaty skupiłem się na wyglądzie i funkcjonalności. 
-Tak naprawdę większość zrobiłem korzystając ze sztucznej inteligencji, oczywiście poradził bym sobie bez tego ale robiłbym to dużo dłużej i mniej poza tym i tak korzystał bym z jakiś forów, wyszukiwarek, poradników i filmików (jak każdy) ale moim zdaniem lepiej mieć wszystko z jednego źródła. Oczywiście ai nie wypluła mi aplikacji która będziecie testować tylko fragmenty które miałem edytować pod siebie, musiałem je też umieć połączyć w całość. Ale moim zdaniem nie chodzi o to żeby wszystko wiedzieć o wszystko potrafić i być chodząca encyklopedią tylko wiedzieć wystarczająco a to czego się nie wie lub się po prostu chcę zaoszczędzić czas to wiedzieć gdzie tego szukać, potrafić z tego skorzystać i potrafić wszystko z sobą połączyć. 
-</p>
+                    <p>
+                        To aplikacja, która jest już w dużej mierze funkcjonalna – choć nadal wiele można dodać i poprawić.  </br>
+                        Najważniejsze jest to, że działa bardzo dobrze i płynnie – na całej stronie występuje tylko kilka przeładowań (głównie podczas autoryzacji), natomiast sama aplikacja działa w pełni w oparciu o AJAX.  </br>
+                        Większość kodu napisałem na telefonie (udało mi się tam uruchomić Laravela), a częściowo na Chromebooku w trybie demo Linuksa. To dość słabe sprzęty, więc musiałem zrezygnować z Dockera i skupiłem się na funkcjonalności i wyglądzie.  
+                        Dużą pomocą była dla mnie sztuczna inteligencja. Jasne – poradziłbym sobie bez niej, ale zajęłoby mi to znacznie więcej czasu. I tak musiałbym korzystać z forów, wyszukiwarek, poradników czy filmów (jak każdy). AI pozwalało mi działać szybciej, mając wszystko w jednym miejscu.  
+                        Oczywiście AI nie wygenerowała za mnie całej aplikacji – dostarczała tylko fragmenty, które musiałem edytować, połączyć w całość i dostosować do własnych potrzeb.  
+                        Moim zdaniem nie chodzi o to, by wiedzieć wszystko i być chodzącą encyklopedią, tylko by wiedzieć wystarczająco dużo, potrafić szukać informacji, wykorzystywać dostępne źródła i łączyć elementy w działającą całość.
+                    </p>
                 </div>
             </div>
         </div>
@@ -67,20 +76,17 @@ Tak naprawdę większość zrobiłem korzystając ze sztucznej inteligencji, ocz
     <!-- HEADER / HERO -->
     <header class="bg-primary text-white text-center py-5">
         <div class="container">
-            <p class="lead">Może trochę o tym w jaki sposób robiłem tak stronę 
-Robiłem ją w większości na telefonie dojeżdżając do pracy i kodując na tylnym
-siedzeniu auta (a dojeżdżam godzinę w 1 stronę)  i po pracy (z 2h dziennie) więc
-czasu miałem średnio dlatego nie wszystko jest wykonane i chcąc zaoszczędzić
-czas korzystałem intensywnie ze sztucznej inteligencji</p>
-
+            <p class="lead">
+                Kilka słów o tym, jak powstawała ta strona:  
+                Tworzyłem ją głównie na telefonie, podczas codziennych dojazdów do pracy – kodując na tylnym siedzeniu auta (a dojazd w jedną stronę trwa u mnie godzinę).  </br>
+                Po pracy poświęcałem na nią około 2 godzin dziennie. Czasu nie miałem zbyt wiele, dlatego intensywnie korzystałem ze sztucznej inteligencji, by usprawnić i przyspieszyć pracę.
+            </p>
         </div>
     </header>
-
 
     <!-- CENNIK / OFERTA -->
     <section class="bg-light py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Nasza oferta</h2>
             <div class="row text-center">
                 @foreach ([
                     ['title' => 'Darmowy', 'desc' => 'Podstawowe funkcje', 'price' => '0 zł'],
@@ -105,7 +111,6 @@ czas korzystałem intensywnie ze sztucznej inteligencji</p>
     <!-- OPINIE -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Co mówią nasi użytkownicy</h2>
             <div class="row">
                 @foreach ([1, 2, 3] as $i)
                 <div class="col-md-4 mb-4">
@@ -124,7 +129,6 @@ czas korzystałem intensywnie ze sztucznej inteligencji</p>
     <!-- FAQ -->
     <section class="bg-light py-5">
         <div class="container">
-            <h2 class="text-center mb-5">Najczęstsze pytania</h2>
             <div class="accordion" id="faqAccordion">
                 @foreach ([
                     ['q' => 'Czy aplikacja jest darmowa?', 'a' => 'Tak, podstawowa wersja jest całkowicie darmowa.'],
@@ -149,7 +153,6 @@ czas korzystałem intensywnie ze sztucznej inteligencji</p>
     <!-- KONTAKT -->
     <section class="py-5">
         <div class="container">
-            <h2 class="text-center mb-4">Skontaktuj się z nami</h2>
             <form class="mx-auto" style="max-width: 600px;">
                 <div class="mb-3">
                     <label class="form-label">Imię</label>
@@ -181,7 +184,7 @@ czas korzystałem intensywnie ze sztucznej inteligencji</p>
         </div>
     </footer>
 
-<!-- Modal -->
+    <!-- Modal -->
     <div class="modal fade" id="authModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
