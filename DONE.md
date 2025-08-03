@@ -53,4 +53,7 @@ Archiwizacja zadań zamiast trwałego usuwania, z możliwością ich późniejsz
 
 Paginacja – obecnie aplikacja pokazuje wszystkie zadania naraz, co warto zmienić.
 
+Powiadomienia push i e-mail – o nowych zadaniach, komentarzach, zmianach statusów itp.
+Personalizowane powiadomienia i przypomnienia – np. „przypomnij mi o zadaniu na godzinę przed deadlinem”.
+Eksport/import zadań i list w formatach CSV, JSON, PDF.
 
